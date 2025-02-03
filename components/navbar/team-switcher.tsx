@@ -24,13 +24,13 @@ export default function TeamSwitcher() {
     return (
         <Popover>
             <PopoverTrigger>
-                <Button variant="outline" role='combobox' aria-label='Select a team' className='w-[200px] justify-between'>
+                <div aria-label='Select a team' className='px-3 py-2 transition-all hover:bg-secondary flex rounded-2xl items-center gap-1.5 w-[200px] justify-between border'>
                     <Avatar className='mr-2 h-6 w-6'>
                         <AvatarImage src='http://avatar.vercel.sh/Siddhant.png' alt='Avatar' />
                         <AvatarFallback>EV</AvatarFallback>
                     </Avatar>
                     Siddhant Kapoor
-                </Button>
+                </div>
             </PopoverTrigger>
             <PopoverContent className='w-80'>
                 <Command>
