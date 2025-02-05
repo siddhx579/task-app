@@ -1,5 +1,6 @@
 import Form from "@/components/form";
 import Navbar from "@/components/navbar";
+import TaskList from "@/components/task-list";
 import { CardDescription, CardTitle } from "@/components/ui/card";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 
@@ -26,8 +27,10 @@ export default function Home() {
           </ResizablePanelGroup>
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={50}>
-          List
+        <ResizablePanel className="max-w-[75vw] min-w-[30vw]" defaultSize={50}>
+          <div className="h-full overflow-y-auto p-6">
+            <TaskList />
+          </div>
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>
