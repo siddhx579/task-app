@@ -12,3 +12,10 @@ export async function createTask(task: FormSchema) {
         }
     })
 }
+
+export async function getTasks() {
+    const tasks = await prisma.task.findMany({orderBy:
+        { createdAt: "desc"}
+    })
+    return tasks
+}
