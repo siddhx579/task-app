@@ -5,6 +5,7 @@ import { getTasks } from '@/services/task'
 import { getDate } from "@/utils/getDate";
 import StatusBullet from '../StatusBullet';
 import { TaskStatus } from '../form/schema';
+import TitleCell from './title-cell';
 
 export default async function TaskList() {
     const tasks = await getTasks();
@@ -31,8 +32,7 @@ export default async function TaskList() {
                                 {getDate(task.createdAt)}
                             </TableCell>
                             <TableCell className="font-medium">
-                                {task.title}
-                                {/* <TitleCell task={task} /> */}
+                                <TitleCell task={task} />
                             </TableCell>
                             <TableCell className="capitalize">
                                 <StatusBullet status={task.status as TaskStatus} />
