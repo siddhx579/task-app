@@ -24,7 +24,7 @@ type Props = {
 export default function Form(props: Props) {
     const { task, onSubmitorDelete } = props;
     const isEditing = !!task;
-    const form = useForm({
+    const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
         defaultValues: isEditing
             ? {
@@ -32,6 +32,8 @@ export default function Form(props: Props) {
                 description: task.description,
                 status: task.status as TaskStatus,
             } : {
+                title: "",
+                description: "",
                 status: "starting",
             },
     });
