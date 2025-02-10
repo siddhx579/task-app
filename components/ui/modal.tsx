@@ -14,8 +14,8 @@ export default function Modal(props: Props) {
     const modalRef = useRef<HTMLDivElement | null>(null);
     const onScreenClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const dimentions = modalRef.current?.getBoundingClientRect()
-        if(!dimentions) return
-        if(
+        if (!dimentions) return
+        if (
             e.clientX < dimentions.left ||
             e.clientX > dimentions.right ||
             e.clientY < dimentions.top ||
@@ -24,7 +24,7 @@ export default function Modal(props: Props) {
             close()
         }
     }
-    if(!isOpen) return null;
+    if (!isOpen) return null;
 
     return (
         <div onClick={onScreenClick} className="fixed z-[10] inset-0 bg-zinc-900/90 flex items-center justify-center">
