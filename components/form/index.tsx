@@ -3,20 +3,37 @@ import React, { useState } from 'react'
 import { Form as FormComp, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
-import formSchema, { FormSchema } from './schema';
+import formSchema, { FormSchema, TaskStatus } from './schema';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import StatusBullet from '../StatusBullet';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { IoAddOutline } from "react-icons/io5";
-import { createTask } from '@/services/task';
+import { createTask, deleteTask, updateTask } from '@/services/task';
 import { VscLoading } from "react-icons/vsc";
 import { useToast } from '@/hooks/use-toast';
+import { Task } from '@prisma/client';
 
-export default function Form() {
+type Props = {
+    task?: Task;
+    onSubmitorDelete?: () => void;
+    defaultDate?: Date
+};
+
+export default function Form(props: Props) {
+    const { task, onSubmitorDelete } = props;
+    const isEditing = !!task;
     const form = useForm({
         resolver: zodResolver(formSchema),
+        defaultValues: isEditing
+            ? {
+                title: task.title,
+                description: task.description,
+                status: task.status as TaskStatus,
+            } : {
+                status: "starting",
+            },
     });
 
     const { toast } = useToast();
@@ -25,10 +42,28 @@ export default function Form() {
 
     const onSubmit = async (data: FormSchema) => {
         setIsLoading(true);
-        await createTask(data);
+        if (!isEditing) {
+            await createTask(data);
+        } else {
+            const newTask = {
+                id: task.id,
+                createdAt: task.createdAt,
+                description: task.description || "",
+                status: data.status,
+                title: data.title,
+            } as Task;
+            await updateTask(newTask);
+        }
         setIsLoading(false);
-        toast({title: "Your new task was created successfully!"});
-    }
+        toast({ title: isEditing ? "Your task was edited successfully!" : "Your new task was created successfully!" });
+        onSubmitorDelete?.();
+    };
+
+    const onDelete = async () => {
+        if (!task?.id) return;
+        await deleteTask(task.id);
+        onSubmitorDelete?.();
+    };
 
     return (
         <FormComp {...form}>
@@ -65,9 +100,11 @@ export default function Form() {
                             </Select>
                         </FormItem>
                     )} />
-                    <Button type="submit" icon={isLoading ? (<VscLoading className="animate-spin" />) : (<IoAddOutline />)}>
-                        Add Task
-                    </Button>
+                    {isEditing ? null : (
+                        <Button type="submit" icon={isLoading ? (<VscLoading className="animate-spin" />) : (<IoAddOutline />)}>
+                            Add Task
+                        </Button>
+                    )}
                 </div>
                 <FormField control={form.control} name="description" render={({ field }) => (
                     <FormItem>
@@ -77,6 +114,16 @@ export default function Form() {
                         </FormControl>
                     </FormItem>
                 )} />
+                {isEditing ? (
+                    <div className="flex item-center gap-2">
+                        <Button type="submit" disabled={isLoading}>
+                            Save Changes
+                        </Button>
+                        <Button variant="destructive" onClick={onDelete} disabled={isLoading}>
+                            Delete
+                        </Button>
+                    </div>
+                ) : null}
             </form>
         </FormComp>
     )
