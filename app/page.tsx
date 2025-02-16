@@ -12,7 +12,7 @@ export default function Home() {
       <ResizablePanelGroup className="h-full w-full border border-t-0" direction="horizontal">
         <ResizablePanel defaultSize={50}>
           <ResizablePanelGroup direction="vertical">
-            <ResizablePanel defaultSize={60}>
+            <ResizablePanel defaultSize={30}>
               <div className="h-full flex flex-col justify-center p-6 space-y-4">
                 <div className="space-y-2">
                   <CardTitle>Create a New Task</CardTitle>
