@@ -8,8 +8,8 @@ export default async function Charts() {
         { status: "starting", count: count.starting, fill: "#ef4444" },
         { status: "progress", count: count.progress, fill: "#f97316" },
         { status: "done", count: count.done, fill: "#22c55e" },
-    ]
+    ];
     return (
         <ChartsComp data={data} />
-    )
+    );
 }
