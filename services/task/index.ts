@@ -2,27 +2,36 @@
 
 import { FormSchema } from "@/components/form/schema";
 import prisma from "@/lib/prisma";
-import { Task } from "@prisma/client";
+import { Prisma, Task } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { auth } from '@clerk/nextjs/server'
 
 function revalidatePageData(){
     revalidatePath("/", "layout");
 }
 
-export async function createTask(task: FormSchema) {
+export async function createTask(task: Prisma.TaskCreateArgs["data"]) {
+    const { userId } = await auth();
+    if( !userId ) throw new Error("User not authenticated");
+
     await prisma.task.create({
         data: {
             description: task.description || "",
             status: task.status,
-            title: task.title
+            title: task.title,
+            userId,
         },
     });
     revalidatePageData();
 }
 
 export async function getTasks() {
-    const tasks = await prisma.task.findMany({orderBy:
-        { createdAt: "desc"}
+    const { userId } = await auth();
+    if( !userId ) throw new Error("User not authenticated");
+
+    const tasks = await prisma.task.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc"}
     })
     return tasks;
 }
@@ -43,10 +52,13 @@ export async function updateTask(task: Task){
 }
 
 export async function getTaskCountByStatus() {
+    const { userId } = await auth();
+    if(!userId) throw new Error("User not authenticated");
+
     const [starting, progress, done] = await Promise.all([
-        prisma.task.count({ where: { status: "starting" }}),
-        prisma.task.count({ where: { status: "progress" }}),
-        prisma.task.count({ where: { status: "done" }}),
-    ])
+        prisma.task.count({ where: { status: "starting", userId }}),
+        prisma.task.count({ where: { status: "progress", userId }}),
+        prisma.task.count({ where: { status: "done", userId }}),
+    ]);
     return { starting, progress, done };
 }

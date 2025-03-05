@@ -14,4 +14,5 @@ model Task {
   title       String
   description String
   status      String
+  userId      String
 }
