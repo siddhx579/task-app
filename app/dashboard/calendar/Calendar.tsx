@@ -30,7 +30,7 @@ function Calendar({ tasks }: CalendarProps) {
     const firstDayOfMonth = startOfMonth(selectedDate);
     const lastDayOfMonth = endOfMonth(selectedDate);
     const showModal = !!selectedTask;
-    const newTaskFormDefaultDate = useRef<Date | undefined>();
+    const newTaskFormDefaultDate = useRef<Date | undefined>(undefined);
     const daysInMonth = eachDayOfInterval({
         start: firstDayOfMonth,
         end: lastDayOfMonth,
