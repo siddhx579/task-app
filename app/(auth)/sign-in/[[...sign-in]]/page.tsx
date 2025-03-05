@@ -3,8 +3,6 @@
 import { motion } from "framer-motion";
 import { SignIn } from "@clerk/nextjs";
 import ParticlesBackground from "@/components/ParticlesBackground";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export default function SignInPage() {
     return (
