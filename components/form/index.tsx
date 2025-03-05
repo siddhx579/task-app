@@ -46,6 +46,7 @@ export default function Form(props: Props) {
         setIsLoading(true);
         if (!isEditing) {
             await createTask(data);
+            form.reset({ title: "", description: "", status: "starting" });
         } else {
             const newTask = {
                 id: task.id,
@@ -128,5 +129,5 @@ export default function Form(props: Props) {
                 ) : null}
             </form>
         </FormComp>
-    )
+    );
 }
