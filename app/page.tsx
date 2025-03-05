@@ -1,39 +1,43 @@
-import Charts from "@/components/charts";
-import Form from "@/components/form";
-import Navbar from "@/components/navbar";
-import TaskList from "@/components/task-list";
-import { CardDescription, CardTitle } from "@/components/ui/card";
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import ParticlesBackground from "@/components/ParticlesBackground";
 
 export default function Home() {
+  const router = useRouter();
+
   return (
-    <div className="h-screen flex flex-col justify-between">
-      <Navbar />
-      <ResizablePanelGroup className="h-full w-full border border-t-0" direction="horizontal">
-        <ResizablePanel defaultSize={50}>
-          <ResizablePanelGroup direction="vertical">
-            <ResizablePanel defaultSize={30}>
-              <div className="h-full flex flex-col justify-center p-6 space-y-4">
-                <div className="space-y-2">
-                  <CardTitle>Create a New Task</CardTitle>
-                  <CardDescription>What do you have to do today</CardDescription>
-                </div>
-                <Form />
-              </div>
-            </ResizablePanel>
-            <ResizableHandle withHandle />
-            <ResizablePanel className="min-h-[30vh] h-full">
-              <Charts />
-            </ResizablePanel>
-          </ResizablePanelGroup>
-        </ResizablePanel>
-        <ResizableHandle withHandle />
-        <ResizablePanel className="max-w-[75vw] min-w-[30vw]" defaultSize={50}>
-          <div className="h-full overflow-y-auto p-6">
-            <TaskList />
-          </div>
-        </ResizablePanel>
-      </ResizablePanelGroup>
+    <div className="relative flex min-h-screen flex-col items-center justify-center px-6 text-center">
+      <ParticlesBackground />
+
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="text-5xl font-bold text-white sm:text-6xl"
+      >
+        Welcome to <span className="text-[#ff6b6b]">NextTask</span>
+      </motion.h1>
+
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.8 }}
+        className="mt-4 max-w-lg text-lg text-gray-200"
+      >
+        A modern task management application to boost your productivity.
+      </motion.p>
+
+      <motion.button
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.6 }}
+        onClick={() => router.push("/dashboard")}
+        className="mt-8 rounded-full bg-gradient-to-r from-[#ff6b6b] to-[#5f27cd] px-6 py-3 text-lg font-semibold text-white shadow-lg transition-transform hover:scale-105"
+      >
+        Get Started 🚀
+      </motion.button>
     </div>
   );
 }
