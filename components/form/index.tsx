@@ -14,6 +14,7 @@ import { createTask, deleteTask, updateTask } from '@/services/task';
 import { VscLoading } from "react-icons/vsc";
 import { useToast } from '@/hooks/use-toast';
 import { Task } from '@prisma/client';
+import { useUser } from '@clerk/nextjs';
 
 type Props = {
     task?: Task;
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export default function Form(props: Props) {
+    const { user } = useUser();
     const { task, onSubmitorDelete } = props;
     const isEditing = !!task;
     const form = useForm<FormSchema>({
@@ -45,18 +47,31 @@ export default function Form(props: Props) {
     const onSubmit = async (data: FormSchema) => {
         setIsLoading(true);
         if (!isEditing) {
-            await createTask(data);
+            if (!user) {
+                toast({ title: "You must be logged in to create a task!", variant: "destructive" });
+                setIsLoading(false);
+                return;
+            }
+
+            await createTask({
+                ...data,
+                userId: user.id,
+                description: data.description || "",  // Ensure it's always a string
+            });
+
             form.reset({ title: "", description: "", status: "starting" });
         } else {
             const newTask = {
                 id: task.id,
                 createdAt: task.createdAt,
-                description: task.description || "",
+                description: data.description || "",  // Ensure it's always a string
                 status: data.status,
                 title: data.title,
             } as Task;
+
             await updateTask(newTask);
         }
+
         setIsLoading(false);
         toast({ title: isEditing ? "Your task was edited successfully!" : "Your new task was created successfully!" });
         onSubmitorDelete?.();
