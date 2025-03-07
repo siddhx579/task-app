@@ -2,8 +2,6 @@
 
 NextTask is a modern and advanced task management web application built with **Next.js**, **Prisma**, and **Clerk** authentication. It helps users manage tasks efficiently with a clean and intuitive UI.
 
----
-
 ## Features
 
 - 🔒 **Authentication** using Clerk
@@ -12,8 +10,6 @@ NextTask is a modern and advanced task management web application built with **N
 - 🖥️ **Responsive UI** using Tailwind CSS and Shadcn
 - 📊 **Database Management** with Prisma and PostgreSQL
 
----
-
 ## Tech Stack
 
 - **Frontend:** Next.js, React, Tailwind CSS, Shadcn
@@ -21,8 +17,6 @@ NextTask is a modern and advanced task management web application built with **N
 - **Database:** Supabase (PostgreSQL)
 - **Authentication:** Clerk
 - **Deployment:** Vercel
-
----
 
 ## Installation
 
@@ -66,8 +60,6 @@ NextTask is a modern and advanced task management web application built with **N
    ```
    The app will be available at `http://localhost:3000`
 
----
-
 ## Deployment
 
 ### Deploying on Vercel
@@ -81,13 +73,9 @@ NextTask is a modern and advanced task management web application built with **N
      ```
 5. Deploy the project.
 
----
-
 ## Contributing
 
 Contributions are welcome! Feel free to open an issue or submit a pull request.
-
----
 
 ## License
 
