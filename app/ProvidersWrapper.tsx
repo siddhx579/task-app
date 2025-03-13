@@ -2,6 +2,7 @@
 
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
+import { dark } from "@clerk/themes";
 
 type Props = {
     children: React.ReactNode;
@@ -9,7 +10,9 @@ type Props = {
 
 export default function ProvidersWrapper({ children }: Props) {
     return (
-        <ClerkProvider>
+        <ClerkProvider appearance={{
+            baseTheme: dark,
+        }}>
             <Toaster />
             {children}
         </ClerkProvider>
