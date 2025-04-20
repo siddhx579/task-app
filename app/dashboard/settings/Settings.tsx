@@ -12,13 +12,13 @@ export default function Settings() {
                     <CardTitle className="text-center">Account Settings</CardTitle>
                 </CardHeader>
                 <CardContent className="flex justify-center">
-                    <UserProfile 
+                    <UserProfile
                         appearance={{
                             elements: {
                                 rootBox: "w-full",
                                 card: "shadow-none border-none",
                             }
-                        }} 
+                        }}
                     />
                 </CardContent>
             </Card>
